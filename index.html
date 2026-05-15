@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Which Warbler Are You? 🐦</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sage: #7a9e7e;
+    --gold: #e8b84b;
+    --rust: #c0532a;
+    --cream: #fdf6e3;
+    --bark: #3d2b1a;
+    --sky: #4a8fa8;
+    --moss: #2d4a2f;
+  }
+
+- { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+background-color: var(–cream);
+font-family: ‘DM Sans’, sans-serif;
+color: var(–bark);
+min-height: 100vh;
+background-image:
+radial-gradient(ellipse at 10% 20%, rgba(122,158,126,0.18) 0%, transparent 60%),
+radial-gradient(ellipse at 90% 80%, rgba(232,184,75,0.15) 0%, transparent 60%),
+url(“data:image/svg+xml,%3Csvg width=‘60’ height=‘60’ viewBox=‘0 0 60 60’ xmlns=‘http://www.w3.org/2000/svg’%3E%3Cg fill=‘none’ fill-rule=‘evenodd’%3E%3Cg fill=’%237a9e7e’ fill-opacity=‘0.05’%3E%3Cpath d=‘M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z’/%3E%3C/g%3E%3C/g%3E%3C/svg%3E”);
+}
+
+.container {
+max-width: 720px;
+margin: 0 auto;
+padding: 40px 20px 80px;
+}
+
+/* HEADER */
+.header {
+text-align: center;
+margin-bottom: 48px;
+animation: fadeDown 0.8s ease both;
+}
+
+.header .eyebrow {
+font-size: 12px;
+font-weight: 600;
+letter-spacing: 4px;
+text-transform: uppercase;
+color: var(–sage);
+margin-bottom: 12px;
+}
+
+.header h1 {
+font-family: ‘Playfair Display’, serif;
+font-size: clamp(2.4rem, 7vw, 4rem);
+font-weight: 900;
+line-height: 1.1;
+color: var(–moss);
+margin-bottom: 16px;
+}
+
+.header h1 span {
+color: var(–rust);
+font-style: italic;
+}
+
+.header p {
+font-size: 1.05rem;
+color: #5a4a3a;
+max-width: 480px;
+margin: 0 auto;
+line-height: 1.6;
+}
+
+.bird-row {
+display: flex;
+justify-content: center;
+gap: 6px;
+font-size: 1.8rem;
+margin-bottom: 20px;
+animation: fadeDown 0.8s 0.1s ease both;
+}
+
+/* PROGRESS */
+.progress-wrap {
+margin-bottom: 32px;
+animation: fadeIn 0.5s ease both;
+}
+
+.progress-label {
+display: flex;
+justify-content: space-between;
+font-size: 12px;
+font-weight: 600;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: var(–sage);
+margin-bottom: 8px;
+}
+
+.progress-bar {
+height: 6px;
+background: rgba(122,158,126,0.2);
+border-radius: 99px;
+overflow: hidden;
+}
+
+.progress-fill {
+height: 100%;
+background: linear-gradient(90deg, var(–sage), var(–gold));
+border-radius: 99px;
+transition: width 0.5s cubic-bezier(.4,0,.2,1);
+}
+
+/* QUESTION CARD */
+.question-card {
+background: #fff;
+border-radius: 20px;
+padding: 40px 36px;
+box-shadow: 0 4px 40px rgba(61,43,26,0.10), 0 1px 4px rgba(61,43,26,0.06);
+animation: slideUp 0.45s ease both;
+}
+
+.question-number {
+font-size: 11px;
+font-weight: 600;
+letter-spacing: 3px;
+text-transform: uppercase;
+color: var(–rust);
+margin-bottom: 14px;
+}
+
+.question-text {
+font-family: ‘Playfair Display’, serif;
+font-size: clamp(1.2rem, 3.5vw, 1.55rem);
+font-weight: 700;
+line-height: 1.35;
+color: var(–moss);
+margin-bottom: 30px;
+}
+
+.options {
+display: flex;
+flex-direction: column;
+gap: 12px;
+}
+
+.option {
+display: flex;
+align-items: flex-start;
+gap: 14px;
+padding: 16px 18px;
+border: 2px solid rgba(122,158,126,0.25);
+border-radius: 12px;
+cursor: pointer;
+background: var(–cream);
+transition: all 0.2s ease;
+text-align: left;
+}
+
+.option:hover {
+border-color: var(–sage);
+background: rgba(122,158,126,0.08);
+transform: translateX(4px);
+}
+
+.option.selected {
+border-color: var(–gold);
+background: rgba(232,184,75,0.12);
+}
+
+.option-letter {
+flex-shrink: 0;
+width: 28px;
+height: 28px;
+border-radius: 50%;
+background: rgba(122,158,126,0.15);
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 12px;
+font-weight: 700;
+color: var(–moss);
+margin-top: 1px;
+transition: all 0.2s;
+}
+
+.option.selected .option-letter {
+background: var(–gold);
+color: var(–bark);
+}
+
+.option-text {
+font-size: 0.97rem;
+line-height: 1.45;
+color: #4a3a28;
+}
+
+/* NEXT BUTTON */
+.btn-wrap {
+margin-top: 28px;
+display: flex;
+justify-content: flex-end;
+}
+
+.btn {
+font-family: ‘DM Sans’, sans-serif;
+font-size: 0.9rem;
+font-weight: 600;
+letter-spacing: 1px;
+text-transform: uppercase;
+padding: 14px 32px;
+border: none;
+border-radius: 99px;
+cursor: pointer;
+background: var(–moss);
+color: #fff;
+transition: all 0.2s ease;
+opacity: 0;
+pointer-events: none;
+}
+
+.btn.visible {
+opacity: 1;
+pointer-events: all;
+animation: popIn 0.3s ease;
+}
+
+.btn:hover {
+background: var(–rust);
+transform: translateY(-2px);
+box-shadow: 0 6px 20px rgba(192,83,42,0.3);
+}
+
+/* RESULT */
+.result-card {
+background: #fff;
+border-radius: 20px;
+overflow: hidden;
+box-shadow: 0 4px 40px rgba(61,43,26,0.12);
+animation: slideUp 0.6s ease both;
+display: none;
+}
+
+.result-card.show { display: block; }
+
+.result-header {
+padding: 48px 36px 36px;
+text-align: center;
+position: relative;
+}
+
+.result-emoji {
+font-size: 5rem;
+margin-bottom: 16px;
+display: block;
+animation: float 3s ease-in-out infinite;
+}
+
+.result-label {
+font-size: 11px;
+font-weight: 600;
+letter-spacing: 4px;
+text-transform: uppercase;
+margin-bottom: 10px;
+}
+
+.result-name {
+font-family: ‘Playfair Display’, serif;
+font-size: clamp(2rem, 6vw, 3rem);
+font-weight: 900;
+line-height: 1.1;
+margin-bottom: 20px;
+}
+
+.result-tagline {
+font-size: 1.1rem;
+font-weight: 600;
+font-style: italic;
+margin-bottom: 20px;
+opacity: 0.85;
+}
+
+.result-body {
+padding: 0 36px 40px;
+}
+
+.result-desc {
+font-size: 1.0rem;
+line-height: 1.7;
+color: #4a3a28;
+margin-bottom: 28px;
+padding: 24px;
+background: var(–cream);
+border-radius: 12px;
+border-left: 4px solid;
+}
+
+.result-facts {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 12px;
+margin-bottom: 28px;
+}
+
+.fact-chip {
+padding: 12px 14px;
+border-radius: 10px;
+background: rgba(122,158,126,0.08);
+border: 1px solid rgba(122,158,126,0.2);
+}
+
+.fact-chip .fact-label {
+font-size: 10px;
+font-weight: 700;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: var(–sage);
+margin-bottom: 4px;
+}
+
+.fact-chip .fact-val {
+font-size: 0.88rem;
+font-weight: 500;
+color: var(–bark);
+}
+
+.retake-btn {
+display: block;
+width: 100%;
+font-family: ‘DM Sans’, sans-serif;
+font-size: 0.9rem;
+font-weight: 600;
+letter-spacing: 1px;
+text-transform: uppercase;
+padding: 16px;
+border: 2px solid var(–moss);
+border-radius: 99px;
+cursor: pointer;
+background: transparent;
+color: var(–moss);
+transition: all 0.2s ease;
+}
+
+.retake-btn:hover {
+background: var(–moss);
+color: #fff;
+}
+
+/* ANIMATIONS */
+@keyframes fadeDown {
+from { opacity: 0; transform: translateY(-20px); }
+to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideUp {
+from { opacity: 0; transform: translateY(24px); }
+to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+from { opacity: 0; } to { opacity: 1; }
+}
+@keyframes popIn {
+0% { transform: scale(0.85); opacity: 0; }
+70% { transform: scale(1.05); }
+100% { transform: scale(1); opacity: 1; }
+}
+@keyframes float {
+0%, 100% { transform: translateY(0); }
+50% { transform: translateY(-10px); }
+}
+
+@media (max-width: 480px) {
+.question-card { padding: 28px 20px; }
+.result-header { padding: 36px 20px 24px; }
+.result-body { padding: 0 20px 32px; }
+.result-facts { grid-template-columns: 1fr; }
+}
+</style>
+
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="bird-row">🌿🐦🌸🐦🌿</div>
+    <div class="eyebrow">BWIAB 4 Mommies</div>
+    <h1>Which Warbler<br>Are <span>You?</span></h1>
+    <p>Ever go to work and instead of working think 'huh, I like warblers. Does anyone remember buzzfeed quizzes?' Well, you're not alone! Answer 10 simple questions to see what kind of Warbler is what you is.</p>
+  </div>
+
+  <div class="progress-wrap" id="progressWrap">
+    <div class="progress-label">
+      <span id="progressText">Question 1 of 10</span>
+      <span id="progressPct">0%</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill" style="width:0%"></div>
+    </div>
+  </div>
+
+  <div class="question-card" id="questionCard">
+    <div class="question-number" id="questionNum">Question 1</div>
+    <div class="question-text" id="questionText"></div>
+    <div class="options" id="optionsWrap"></div>
+    <div class="btn-wrap">
+      <button class="btn" id="nextBtn" onclick="nextQuestion()">Next →</button>
+    </div>
+  </div>
+
+  <div class="result-card" id="resultCard">
+    <div class="result-header" id="resultHeader">
+      <span class="result-emoji" id="resultEmoji"></span>
+      <div class="result-label" id="resultLabel">You are the...</div>
+      <div class="result-name" id="resultName"></div>
+      <div class="result-tagline" id="resultTagline"></div>
+    </div>
+    <div class="result-body">
+      <div class="result-desc" id="resultDesc"></div>
+      <div class="result-facts" id="resultFacts"></div>
+      <button class="retake-btn" onclick="retake()">↺ Take it again</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const warblers = {
+  yellowwarbler: {
+    name: "Yellow Warbler",
+    emoji: "🌟",
+    color: "#e8b84b",
+    tagline: "The ray of sunshine",
+    desc: "*sweet sweet sweet I'm so sweet* — and honestly? You kind of are THAT GIRL. You are undeniably, unapologetically yourself — bright, warm, and impossible to miss. Like the Yellow Warbler, you show up with energy that fills the scrubby thicket. You're a people person who thrives in open, social settings and adapts effortlessly to new environments. You move quickly, arrive early to the party, and somehow always make it home first.",
+    facts: { Vibe: "Radiant", Habitat: "Loves open, social spaces", Style: "Bold", Secret: "is an influencer" }
+  },
+  americanredstart: {
+    name: "American Redstart",
+    emoji: "🔥",
+    color: "#c0532a",
+    tagline: "Flashy, energetic, and always on the move",
+    desc: "*tsip tsip tsip tsip* You are a showstopper. The American Redstart fans its tail and flashes brilliant orange patches when it moves. You startle people and bugs around you with your moves - and you eat them UP. You're a natural performer who loves dynamic environments like the stage, forest edges, and shitting on data centers.",
+    facts: { Vibe: "Rizz em up, eat em up.", Habitat: "Urban parks, creative hubs", Style: "Orange and flashy", Secret: "eats bugs" }
+  },
+  magnoliawarbler: {
+    name: "Magnolia Warbler",
+    emoji: "🌸",
+    color: "#7a9e7e",
+    tagline: "You WISH",
+    desc: "*peep peep peep puh-deep* You have *the look*. The Magnolia Warbler's signature move is that unique white square band through the middle of its tail — instantly recognizable. You have a signature too: a distinctive aesthetic, a strong personal style, a vibe others try to copy but can't quite nail. You're active and social, comfortable moving between different groups (forest, scrub, urban parks, backyards), but you also have hidden depth. Peak you is May — structured, intentional, peak performance season.",
+    facts: { Vibe: "Effortlessly stylish", Habitat: "Anywhere with good light", Style: "Instantly recognizable", Secret: "Sort of evangelical-coded" }
+  },
+  commonYellowthroat: {
+    name: "Common Yellowthroat",
+    emoji: "🎭",
+    color: "#4a8fa8",
+    tagline: "The life of the party with a mysterious side",
+    desc: "*wichety-wichety-wichety* — that's YOU walking into a room and everyone is like \"WOW\". The Common Yellowthroat is one of the most abundant warblers and one of the most beloved: cheerful, visible, and always turning up somewhere unexpected. You're adaptable and social, equally at home in a marsh, a backyard, or a forest undergrowth. The twist? You're a bit of a skulker at heart — you love your alone time in the dense reeds. The mask-wearing Yellowthroat keeps a little mystery. So do you.",
+    facts: { Vibe: "Beloved extrovert", Habitat: "Everywhere, honestly", Style: "Masked and iconic", Secret: "Watches the weird anime" }
+  },
+  canadawarbler: {
+    name: "Canada Warbler",
+    emoji: "💙",
+    color: "#2d4a2f",
+    tagline: "Cool, understated, and deeply stylish",
+    desc: "*chippy-chappy (idk)* You are the only warbler with a gray-blue head, back, and wings — meaning you stand out by refusing to overcomplicate things. The Canada Warbler's *necklace* of black streaks is its only flourish, worn with quiet confidence. You're a creature of shadows and undergrowth, preferring to move through life thoughtfully rather than loudly. You arrive in the third wave migration but when you show up, people notice.",
+    facts: { Vibe: "Quiet icon", Habitat: "Shadowy, textured spaces", Style: "Minimalist with one statement piece", Secret: "Daddy issues" }
+  },
+  nashvillewarbler: {
+    name: "Nashville Warbler",
+    emoji: "💛",
+    color: "#b8860b",
+    tagline: "Sweetly social with surprising range",
+    desc: "*see-weet-[TRILLLLLL]* — that's you at a dinner party. You're highly adaptable, showing up in forests, scrub-shrub, urban parks, and backyards with equal ease. You have a hidden rufous cap (google it, nerds) that only comes out when you're *really* fired up. Most people see your sunny exterior; close friends know the passionate depths underneath.",
+    facts: { Vibe: "Warm social butterfly", Habitat: "Comfortable everywhere", Style: "Yellow with hidden fire", Secret: "humiliation kink" }
+  },
+  blackandwhitewarbler: {
+    name: "Black-and-white Warbler",
+    emoji: "🎹",
+    color: "#3d2b1a",
+    tagline: "Classic, distinctive, and endlessly capable",
+    desc: "*wee-see wee-see* song is the sound of someone who always delivers. You are *the* original. The Black-and-white Warbler creeps along branches and trunks but you are not a creep, you are skillful.",
+    facts: { Vibe: "Reliable overachiever", Habitat: "Mature forests, also your backyard", Style: "Monochrome classic", Secret: "Wagon Wheel is your favorite song" }
+  },
+  prothonotaryWarbler: {
+    name: "Prothonotary Warbler",
+    emoji: "✨",
+    color: "#d4a017",
+    tagline: "Rare, luminous, and completely unforgettable",
+    desc: "*weat-weat-weat* You know your worth. You're a swamp girl in a world full of dry forest types. Bright golden yellow with blue-gray wings — the Prothonotary Warbler is one of the most gorgeous birds and loves to put on a show.",
+    facts: { Vibe: "Rare gem", Habitat: "Atmospheric, moody places", Style: "Golden with blue-gray cool", Secret: "Is a doomsday prepper" }
+  },
+  mourningWarbler: {
+    name: "Mourning Warbler",
+    emoji: "🌿",
+    color: "#7a9e7e",
+    tagline: "Elusive, passionate, and deeply heard",
+    desc: "*chirry chirry chirry, chorry chorry* - more like 'anyone else smell chimicurri but can't see it?' amiiright. The bird itself is notoriously hard to spot. Sound familiar? You pour your heart into your words, your art, your texts — but you guard your personal space fiercely. You arrive fashionably late (third wave) and disappear into dense undergrowth the moment things get too loud.",
+    facts: { Vibe: "Mysterious romantic", Habitat: "Dense thickets (emotionally and physically)", Style: "Olive and gray with unexpected depth", Secret: "huge OG tumblr head" }
+  },
+  wilsonsWarbler: {
+    name: "Wilson's Warbler",
+    emoji: "🖤",
+    color: "#4a8fa8",
+    tagline: "Not like other girls",
+    desc: "*i have no idea how to type this call* Wilson literally cannot sit still. It sports a bold black cap that it wears like a statement. That's you: always in motion, tail up, ready for the next thing. You arrive at the end of the season when everyone else is winding down, and you somehow bring fresh energy. You're not the most conventional, but you have an undeniable charm and a sweet rising song that gets stuck in people's heads.",
+    facts: { Vibe: "Restless", Habitat: "Thin forests, scrub", Style: "Olive-yellow with a signature cap", Secret: "hates the yamaka joke" }
+  }
+};
+
+const questions = [
+  {
+    q: "It's a beautiful spring morning. What are you doing?",
+    opts: [
+      { text: "The sky is awake so I'm awake! I'm an early riser and I hate missing the good light", w: { yellowwarbler: 2, blackandwhitewarbler: 2 } },
+      { text: "Checking the groupme and seeing who's down to clown", w: { commonYellowthroat: 2, nashvillewarbler: 2 } },
+      { text: "Zzzzz", w: { canadawarbler: 2, mourningWarbler: 2 } },
+      { text: "Working on something — the quiet hours are peak productivity", w: { wilsonsWarbler: 2, magnoliawarbler: 1 } }
+    ]
+  },
+  {
+    q: "Your friend group would describe your vibe as:",
+    opts: [
+      { text: "Bright — positive energy, friendly, always uplifting", w: { yellowwarbler: 3, prothonotaryWarbler: 1 } },
+      { text: "RizzMaxxing — bold, unforgettable, and just a little extra ;)", w: { americanredstart: 3, magnoliawarbler: 1 } },
+      { text: "Mysterious — you give a lot but reveal slowly", w: { mourningWarbler: 3, canadawarbler: 2 } },
+      { text: "Dependable — always shows up, always delivers", w: { blackandwhitewarbler: 3, nashvillewarbler: 1 } }
+    ]
+  },
+  {
+    q: "Where would you most likely be found at a party?",
+    opts: [
+      { text: "With the people. Working the whole room, yapping it up", w: { commonYellowthroat: 3, nashvillewarbler: 2 } },
+      { text: "Stirring the pot. Sometimes it's fun to be the center of attention in a dramatic moment, then slipping away", w: { americanredstart: 3, mourningWarbler: 1 } },
+      { text: "In the garden or yard. Close enough, but you like your space", w: { canadawarbler: 2, wilsonsWarbler: 2 } },
+      { text: "The kitchen. You're helping out, being useful, and you can't sit still", w: { blackandwhitewarbler: 2, yellowwarbler: 2 } }
+    ]
+  },
+  {
+    q: "Choose your ideal habitat:",
+    opts: [
+      { text: "A sunny clearing with wildflowers and good vibes — twilight sunshine scene", w: { yellowwarbler: 3, commonYellowthroat: 1 } },
+      { text: "A moody swamp to get my Shrek on — somewhere atmospheric, wild, and underappreciated", w: { prothonotaryWarbler: 3, mourningWarbler: 2 } },
+      { text: "A dense forest floor — cozy, private", w: { mourningWarbler: 3, canadawarbler: 2 } },
+      { text: "A forest canopy — high up, with a great view and some drama", w: { americanredstart: 2, magnoliawarbler: 2 } }
+    ]
+  },
+  {
+    q: "How do you make your entrance?",
+    opts: [
+      { text: "Big smile, warm presence", w: { americanredstart: 3, prothonotaryWarbler: 2 } },
+      { text: "You're already there before anyone else", w: { blackandwhitewarbler: 3, yellowwarbler: 2 } },
+      { text: "You arrive exactly when the party peaks, right on cue", w: { magnoliawarbler: 2, nashvillewarbler: 2 } },
+      { text: "You drift in late, unbothered, and steal the show", w: { canadawarbler: 3, wilsonsWarbler: 2 } }
+    ]
+  },
+  {
+    q: "Your signature communication style:",
+    opts: [
+      { text: "Enthusiastic — a little excitable", w: { commonYellowthroat: 2, prothonotaryWarbler: 2 } },
+      { text: "Sweet and rapid — you pack a lot into few words", w: { yellowwarbler: 2, nashvillewarbler: 2 } },
+      { text: "Dropping comments off to the side — only the *good* listeners get to hear your CLASSIC bits", w: { mourningWarbler: 3, canadawarbler: 2 } },
+      { text: "Precise — you say exactly what you mean, even if you have to repeat yourself", w: { blackandwhitewarbler: 3, wilsonsWarbler: 1 } }
+    ]
+  },
+  {
+    q: "What's your fashion philosophy hunny?",
+    opts: [
+      { text: "Big on color", w: { yellowwarbler: 2, prothonotaryWarbler: 3 } },
+      { text: "I love a signature statement piece — fun socks, tie, necklace, or fedora", w: { canadawarbler: 3, magnoliawarbler: 2 } },
+      { text: "Classic and timeless", w: { blackandwhitewarbler: 3, nashvillewarbler: 1 } },
+      { text: "Unexpected combos — like a yamaka and a bikini!", w: { americanredstart: 2, wilsonsWarbler: 2 } }
+    ]
+  },
+  {
+    q: "When things get overwhelming, you:",
+    opts: [
+      { text: "Disappear and recharge in private", w: { mourningWarbler: 3, canadawarbler: 2 } },
+      { text: "Keep it moving", w: { wilsonsWarbler: 3, americanredstart: 2 } },
+      { text: "Find your people and let them carry you through", w: { nashvillewarbler: 2, commonYellowthroat: 2 } },
+      { text: "Channel it into focused work", w: { blackandwhitewarbler: 3, magnoliawarbler: 1 } }
+    ]
+  },
+  {
+    q: "Your ideal weekend away:",
+    opts: [
+      { text: "Out in the open — wildflower fields, open skies, warm weather. White girl wasted.", w: { yellowwarbler: 3, nashvillewarbler: 1 } },
+      { text: "Somewhere quiet, vibey, and private", w: { prothonotaryWarbler: 3, canadawarbler: 1 } },
+      { text: "Urban forest — let me bike to a park then grab some street food", w: { americanredstart: 2, magnoliawarbler: 2 } },
+      { text: "A dense forest trail where you can disappear", w: { mourningWarbler: 2, wilsonsWarbler: 2 } }
+    ]
+  },
+  {
+    q: "Finally: what do people remember most about you?",
+    opts: [
+      { text: "Your warmth. You try to make everyone feel seen and welcome", w: { yellowwarbler: 3, nashvillewarbler: 2 } },
+      { text: "Your look. Girl you deserve to get your cloaca ate.", w: { magnoliawarbler: 3, prothonotaryWarbler: 2 } },
+      { text: "Your voice. You a soprano? Or just have a habit of dropping knowledge.", w: { mourningWarbler: 3, commonYellowthroat: 1 } },
+      { text: "Your energy. You never stop moving.", w: { americanredstart: 2, wilsonsWarbler: 2 } }
+    ]
+  }
+];
+
+let current = 0;
+let scores = {};
+let selected = null;
+
+for (let k in warblers) scores[k] = 0;
+
+function render() {
+  const q = questions[current];
+  document.getElementById('questionNum').textContent = `Question ${current + 1}`;
+  document.getElementById('questionText').textContent = q.q;
+  document.getElementById('progressText').textContent = `Question ${current + 1} of ${questions.length}`;
+  const pct = Math.round((current / questions.length) * 100);
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.getElementById('progressFill').style.width = pct + '%';
+
+  const wrap = document.getElementById('optionsWrap');
+  wrap.innerHTML = '';
+  const letters = ['A', 'B', 'C', 'D'];
+  q.opts.forEach((opt, i) => {
+    const div = document.createElement('div');
+    div.className = 'option';
+    div.innerHTML = `<div class="option-letter">${letters[i]}</div><div class="option-text">${opt.text}</div>`;
+    div.onclick = () => selectOption(i, div);
+    wrap.appendChild(div);
+  });
+
+  selected = null;
+  document.getElementById('nextBtn').classList.remove('visible');
+
+  const card = document.getElementById('questionCard');
+  card.style.animation = 'none';
+  card.offsetHeight;
+  card.style.animation = 'slideUp 0.45s ease both';
+}
+
+function selectOption(i, el) {
+  document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  selected = i;
+  document.getElementById('nextBtn').classList.add('visible');
+}
+
+function nextQuestion() {
+  if (selected === null) return;
+  const q = questions[current];
+  const weights = q.opts[selected].w;
+  for (let k in weights) {
+    if (scores[k] !== undefined) scores[k] += weights[k];
+  }
+  current++;
+  if (current >= questions.length) {
+    showResult();
+  } else {
+    render();
+  }
+}
+
+function showResult() {
+  let best = null, bestScore = -1;
+  for (let k in scores) {
+    if (scores[k] > bestScore) { bestScore = scores[k]; best = k; }
+  }
+  const w = warblers[best];
+
+  document.getElementById('questionCard').style.display = 'none';
+  document.getElementById('progressWrap').style.display = 'none';
+
+  document.getElementById('resultEmoji').textContent = w.emoji;
+  document.getElementById('resultName').textContent = w.name;
+  document.getElementById('resultTagline').textContent = '"' + w.tagline + '"';
+  document.getElementById('resultLabel').textContent = 'You are the...';
+
+  const header = document.getElementById('resultHeader');
+  header.style.background = `linear-gradient(135deg, ${w.color}18 0%, ${w.color}08 100%)`;
+  document.getElementById('resultName').style.color = w.color === '#e8b84b' ? '#b8860b' : w.color;
+  document.getElementById('resultLabel').style.color = w.color;
+
+  const desc = document.getElementById('resultDesc');
+  desc.textContent = w.desc;
+  desc.style.borderLeftColor = w.color;
+
+  const facts = document.getElementById('resultFacts');
+  facts.innerHTML = '';
+  for (let label in w.facts) {
+    const chip = document.createElement('div');
+    chip.className = 'fact-chip';
+    chip.innerHTML = `<div class="fact-label">${label}</div><div class="fact-val">${w.facts[label]}</div>`;
+    facts.appendChild(chip);
+  }
+
+  const card = document.getElementById('resultCard');
+  card.classList.add('show');
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function retake() {
+  current = 0;
+  selected = null;
+  for (let k in scores) scores[k] = 0;
+  document.getElementById('resultCard').classList.remove('show');
+  document.getElementById('questionCard').style.display = 'block';
+  document.getElementById('progressWrap').style.display = 'block';
+  render();
+}
+
+render();
+</script>
+
+</body>
+</html>
