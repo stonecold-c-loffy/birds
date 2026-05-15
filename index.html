@@ -658,10 +658,11 @@ function showResult() {
   for (let k in scores) {
     if (scores[k] > bestScore) { bestScore = scores[k]; best = k; }
   }
-  const w = warblers[best];
 
+  const w = warblers[best];
   document.getElementById('questionCard').style.display = 'none';
   document.getElementById('progressWrap').style.display = 'none';
+  document.querySelector('.header').style.display = 'none';
 
   document.getElementById('resultEmoji').textContent = w.emoji;
   document.getElementById('resultName').textContent = w.name;
@@ -688,9 +689,9 @@ function showResult() {
 
   const card = document.getElementById('resultCard');
   card.classList.add('show');
-
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
 
 function retake() {
   current = 0;
@@ -699,8 +700,10 @@ function retake() {
   document.getElementById('resultCard').classList.remove('show');
   document.getElementById('questionCard').style.display = 'block';
   document.getElementById('progressWrap').style.display = 'block';
+  document.querySelector('.header').style.display = 'block';
   render();
 }
+
 
 render();
 </script>
